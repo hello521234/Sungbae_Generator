@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>숭배글 생성기</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #252525;
+            color: #ffffff;
+        }
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            width: 300px;
+        }
+        input[type="text"]#name, 
+        select#dropdown, 
+        textarea#output {
+            background-color: #444444;
+            color: #ffffff;
+            border: none;
+            padding: 15px;
+            border-radius: 5px;
+            width: 100%;
+        }
+        textarea#output {
+            align-items: center;
+            height: 180px;
+            width: 500px;
+            resize: none;
+        }
+        .button-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            gap: 30px;
+        }
+        button {
+            background-color: #FF8800;
+            color: #ffffff;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 20px;
+            cursor: pointer;
+            white-space: nowrap;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #FF6600;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <input type="text" id="name" placeholder="이름을 입력하세요 (예: 홍길동)">
+        
+        <div class="button-container">
+            <select id="dropdown" onchange="updatePlaceholder()">
+                <option value="선택해 주세요">선택해 주세요</option>
+                <option value="세상에 70억명의 팬이 있다면">세상에 70억명의 팬이 있다면</option>
+                <option value="오늘부로 OOO지지를 철회한다">오늘부로 OOO지지를 철회한다</option>
+                <option value="제기랄 또 OOO이야">제기랄 또 OOO이야</option>
+                <option value="카페에 다녀왔습니다">카페에 다녀왔습니다</option>
+                <option value="OOO, 나의 사랑">OOO, 나의 사랑</option>
+                <option value="버스를 탔을 때">버스를 탔을 때</option>
+                <option value="미국은 어디있지?">미국은 어디있지?</option>
+                <option value="누군가 내게">누군가 내게</option>
+                <option value="무례한 말 TOP3">무례한 말 TOP3</option>
+                <option value="글쎄 OOO 탕후루가 없다는거에요">글쎄 OOO 탕후루가 없다는거에요</option>
+            </select>
+            <button onclick="generateSentence()">적용</button>
+        </div>
+
+        <div class="output-container">
+            <textarea id="output" readonly></textarea>
+        </div>
+
+        <button onclick="copyToClipboard()">복사</button>
+    </div>
+
+    <script>
+        function checkBatchimEnding(word) {
+            if (typeof word !== 'string') return null;
+ 
+            var lastLetter = word[word.length - 1];
+            var uni = lastLetter.charCodeAt(0);
+ 
+            if (uni < 44032 || uni > 55203) return null;
+            
+            return (uni - 44032) % 28 != 0;
+            }
+        
+        function generateSentence() {
+            const name = document.getElementById('name').value;
+            const message = document.getElementById('dropdown').value;
+            let sentence = "";
+            var adj1 = checkBatchimEnding(name)?'이야':'야';
+            var adj2 = checkBatchimEnding(name)?'과':'와';
+            var adj3 = checkBatchimEnding(name)?'을':'를';
+            var adj4 = checkBatchimEnding(name)?'이':'가';
+            var adj5 = checkBatchimEnding(name)?'은':'는';
+
+            if (name.trim() === "") {
+                alert("이름을 입력해 주세요.");
+                return;
+            }
+            if (message === "선택해 주세요") {
+                alert("원하는 숭배글을 입력해 주세요.");
+                return;
+            }
+            if (message === "카페에 다녀왔습니다") {
+                sentence = 
+                `어제 ${name} 카페 다녀왔습니다 
+${name} 카페가 열린 건 아니고요
+그냥 카페에서 ${name} 생각했습니다
+카페에 간 건 아니고요
+그냥 집에서 커피를 마셨습니다
+사실 커피도 안마셨습니다
+그냥 ${name}인 상태입니다`;
+            }
+            if (message === "제기랄 또 OOO이야") {
+                sentence = 
+                `제기랄, 또 ${name}${adj1}. 이 게시글만 보고 자려고 했는데, ${name}${adj3} 보고 말았어. 이제 나는 웃어야만 해... 웃으면 잠이 확 깨 버릴 걸 알면서도, 나는 웃어. 그것이 ${name}${adj3} 목도한 자의 사명이다. 자, 웃겠어.`;
+            }
+            if (message === "OOO, 나의 사랑") {
+                sentence = 
+                `${name}, 나의 사랑.
+${name}, 나의 빛.
+${name}, 나의 어둠.
+${name}, 나의 삶.
+${name}, 나의 기쁨.
+${name}, 나의 슬픔.
+${name}, 나의 안식.
+${name}, 나의 영혼.
+${name}, 나.`;
+            }
+            if (message === "세상에 70억명의 팬이 있다면") {
+                sentence = 
+                `세상에 70억 명의 ${name} 팬이 있다면, 나는 그들 중 한 명일 것이다.
+세상에 1억 명의 ${name} 팬이 있다면, 나 또한 그들 중 한 명일 것이다.
+세상에 천만 명의 ${name} 팬이 있다면, 나는 여전히 그들 중 한 명일 것이다.
+세상에 백 명의 ${name} 팬이 있다면, 나는 아직도 그들 중 한 명일 것이다.
+세상에 한 명의 ${name} 팬이 있다면, 그 사람이 나다.
+세상에 단 한 명의 ${name} 팬도 없다면, 나는 그제서야 이 세상에 없는 것이다.
+                `;
+            }
+            if (message === "오늘부로 OOO지지를 철회한다") {
+                sentence = 
+                `오늘부로 ${name}지지를 철회한다
+
+오늘부터 지지관계에서 벗어나
+${name}${adj2} 나는 한몸으로 일체가 된다
+${name}에 대한 공격은 나에 대한 공격으로 간주한다`;
+            }
+            if (message === "버스를 탔을 때") {
+                sentence = 
+                `버스를 탔을 때,
+
+기사님이 의아한 표정으로 물었다.
+
+"학생, 1명인데 왜 2명찍어?"
+
+"제 마음속에는 언제나 ${name}${adj4} 살고있기 때문이죠."
+
+기사님이 웃으며 말했다.
+
+"학생, 우리들의 친절한 이웃 ${name}${adj5} 요금을 안받는단다.`;
+            }
+            if (message === "미국은 어디있지?") {
+                sentence = 
+                `"미국은 어디있지?"
+"북위 24-48, 경도 67-125도,
+북아메리카에."
+"대한민국은?"
+"동경 127도, 북위 37도,
+동북아시아에."
+"${name}${adj5}-"
+".여기, 내 심장에."`;
+            }
+            if (message === "누군가 내게") {
+                sentence = 
+                `누군가 내게
+"${name}${adj3} 얼마나 사랑했나요" 하고 묻는다면,
+나는 외면하며 "손톱만큼이요" 라고 할 것이다
+
+
+하지만 돌아서서는,
+잘라내도 잘라내도 평생 자라나고야 마는
+
+내 손톱을 보고 마음이 저려 펑펑 울지도 모른다`;
+            }
+            if (message === "무례한 말 TOP3") {
+                sentence = 
+                `사람들이 의외로 모르는 무례한 말 TOP3
+
+1. 안녕하세요 - ${name}${adj4} 내 옆에 없는데 안녕하겠냐
+
+2. 밥은 드셨나요? - ${name}${adj4} 내 곁에 없는데 밥이 넘어가겠냐
+
+3. 잘 자요 - ${name}${adj4} 내 곁에 없는데 잠에 들 수 있겠냐`;
+            }
+            if (message === "글쎄 OOO 탕후루가 없다는거에요") {
+                sentence = 
+                `여러분 제가 오늘 어이 없는 일을 겪었는데요...
+원래 탕후루란 게 제철이고 수요 많은 과일들로 만드는 거 아닌가요...?
+오늘 탕후루 가게에 갔는데
+글쎄 ${name} 탕후루가 없다는 거예요...
+${name} 만큼 제철인 게 어디 있다고...
+심지어 계절도 안 타서 항상 제철일 텐데...
+속상한 마음에 글이라도 남겨 봐요...`;
+            }
+            document.getElementById('output').value = sentence;
+        }
+
+        function copyToClipboard() {
+            const output = document.getElementById('output');
+            output.select();
+            document.execCommand('copy');
+            alert('문장이 복사되었습니다!');
+        }
+
+        function updatePlaceholder() {
+            const dropdown = document.getElementById('dropdown');
+            const nameInput = document.getElementById('name');
+            
+         
+            nameInput.placeholder = "이름을 입력하세요 (예: 홍길동)";
+        }
+    </script>
+</body>
+</html>
